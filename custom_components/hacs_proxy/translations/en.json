@@ -8,7 +8,7 @@
         "step": {
             "user": {
                 "data": {
-                    "enable": "Enable",
+                    "enable": "Enable Proxy",
                     "proxy": "Proxy Url"
                 },
                 "description": "Set up proxy for HACS",
@@ -22,7 +22,7 @@
         "step": {
             "user": {
                 "data": {
-                    "enable": "Enable",
+                    "enable": "Enable Proxy",
                     "proxy": "Proxy Url"
                 },
                 "description": "Set up proxy for HACS",
