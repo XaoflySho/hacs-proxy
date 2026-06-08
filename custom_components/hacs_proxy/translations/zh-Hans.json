@@ -6,13 +6,12 @@
         "step": {
             "user": {
                 "data": {
-                    "enable": "启用代理",
                     "proxy": "代理地址",
                     "proxy_username": "代理用户名（可选）",
                     "proxy_password": "代理密码（可选）"
                 },
-                "description": "为HACS设置代理。如果代理不需要认证，请将用户名和密码留空。",
-                "title": "HACS代理"
+                "description": "为 HACS 设置代理。如果代理不需要认证，请将用户名和密码留空。",
+                "title": "HACS 代理"
             }
         }
     },
@@ -20,19 +19,25 @@
         "step": {
             "user": {
                 "data": {
-                    "enable": "启用代理",
                     "proxy": "代理地址",
                     "proxy_username": "代理用户名（可选）",
                     "proxy_password": "代理密码（可选）"
                 },
-                "description": "为HACS设置代理。如果代理不需要认证，请将用户名和密码留空。",
-                "title": "HACS代理"
+                "description": "为 HACS 设置代理。如果代理不需要认证，请将用户名和密码留空。",
+                "title": "HACS 代理"
+            }
+        }
+    },
+    "entity": {
+        "switch": {
+            "proxy_switch": {
+                "name": "HACS 代理"
             }
         }
     },
     "system_health": {
         "info": {
-            "proxied": "已开启代理"
+            "proxied": "已开启 HACS 代理"
         }
     }
 }

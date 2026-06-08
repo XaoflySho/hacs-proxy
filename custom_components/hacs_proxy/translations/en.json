@@ -3,12 +3,10 @@
         "abort": {
             "single_instance_allowed": "Only a single configuration is allowed."
         },
-        "error": {
-        },
+        "error": {},
         "step": {
             "user": {
                 "data": {
-                    "enable": "Enable Proxy",
                     "proxy": "Proxy URL",
                     "proxy_username": "Proxy Username (optional)",
                     "proxy_password": "Proxy Password (optional)"
@@ -19,12 +17,10 @@
         }
     },
     "options": {
-        "abort": {
-        },
+        "abort": {},
         "step": {
             "user": {
                 "data": {
-                    "enable": "Enable Proxy",
                     "proxy": "Proxy URL",
                     "proxy_username": "Proxy Username (optional)",
                     "proxy_password": "Proxy Password (optional)"
@@ -34,9 +30,16 @@
             }
         }
     },
+    "entity": {
+        "switch": {
+            "proxy_switch": {
+                "name": "HACS Proxy"
+            }
+        }
+    },
     "system_health": {
         "info": {
-            "proxied": "Proxied"
+            "proxied": "HACS Proxy Enabled"
         }
     }
 }

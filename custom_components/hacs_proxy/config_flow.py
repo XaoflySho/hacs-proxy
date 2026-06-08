@@ -2,24 +2,22 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 import voluptuous as vol
 
-from .const import CONF_ENABLE, CONF_PROXY, CONF_PROXY_PASSWORD, CONF_PROXY_USERNAME, DOMAIN
+from .const import CONF_PROXY, CONF_PROXY_PASSWORD, CONF_PROXY_USERNAME, DOMAIN
 
 
 class ProxyFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for HACS."""
+    """Config flow for HACS Proxy."""
 
     VERSION = 1
 
     def __init__(self):
-        """Initialize."""
         self._errors = {}
 
-    async def async_step_user(self, user_input):
-        """Handle a flow initialized by the user."""
+    async def async_step_user(self, user_input=None):
         self._errors = {}
         if self._async_current_entries():
             return self.async_abort(reason="single_instance_allowed")
-        
+
         if user_input:
             return self.async_create_entry(title="", data=user_input)
 
@@ -27,7 +25,6 @@ class ProxyFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_ENABLE, default=True): bool,
                     vol.Required(CONF_PROXY): str,
                     vol.Optional(CONF_PROXY_USERNAME, default=""): str,
                     vol.Optional(CONF_PROXY_PASSWORD, default=""): str,
@@ -35,7 +32,6 @@ class ProxyFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             ),
             errors=self._errors,
         )
-
 
     @staticmethod
     @callback
@@ -57,7 +53,6 @@ class ProxyOptionsFlowHandler(config_entries.OptionsFlow):
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_ENABLE, default=current.get(CONF_ENABLE, True)): bool,
                     vol.Required(CONF_PROXY, default=current.get(CONF_PROXY, "")): str,
                     vol.Optional(CONF_PROXY_USERNAME, default=current.get(CONF_PROXY_USERNAME, "")): str,
                     vol.Optional(CONF_PROXY_PASSWORD, default=current.get(CONF_PROXY_PASSWORD, "")): str,
