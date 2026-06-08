@@ -10,45 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 检出代码
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 压缩代码为 ZIP 文件
       - name: Create ZIP
         run: |
           mkdir -p output
           cd custom_components/hacs_proxy
           zip -r ../../output/hacs_proxy.zip *
 
-      # 上传 ZIP 文件为 Artifact（可选，用于调试或存档）
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: hacs_proxy_zip
           path: output/hacs_proxy.zip
 
-      # 发布到 GitHub Releases
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: output/hacs_proxy.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }} # 使用触发的标签名
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-
-      # 上传 ZIP 文件到 Release
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: output/hacs_proxy.zip
-          asset_name: hacs_proxy.zip
-          asset_content_type: application/zip
-        
-        
