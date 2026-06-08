@@ -19,5 +19,11 @@ HACS > Overflow Menu > Custom repositories > Repository: https://github.com/Xaof
 
 ## Configuration
 
-Configuration > Devices & Services > Add Integration > Search for "HACS Proxy" > Check "Enable Proxy" & Fill in "Proxy Url" > Submit
+Configuration > Devices & Services > Add Integration > Search for "HACS Proxy" > Fill in "Proxy URL" (required) and optionally "Proxy Username" & "Proxy Password" > Submit
+
+To update proxy settings later, go to the integration entry and click "Configure".
+
+## Switch Entity
+
+After setup, a **HACS Proxy** switch entity is created. You can toggle it in the UI or via automations to enable/disable the proxy at runtime without restarting Home Assistant. The switch state is persisted across restarts.
 

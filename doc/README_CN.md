@@ -19,5 +19,11 @@ HACS > Overflow Menu > Custom repositories > Repository: https://github.com/Xaof
 
 ## 配置
 
-设置 > 设备与服务 > 添加集成 > 搜索“HACS Proxy” > 勾选“启用代理”&填写“代理地址” > 提交
+设置 > 设备与服务 > 添加集成 > 搜索”HACS Proxy” > 填写”代理地址”（必填），以及可选的”代理用户名”和”代理密码” > 提交
+
+如需修改代理配置，进入集成条目点击”配置”即可。
+
+## 开关实体
+
+安装完成后会创建一个 **HACS Proxy** 开关实体，可在界面中手动切换或通过自动化控制，无需重启 Home Assistant 即可启用/禁用代理。开关状态在重启后保持。
 
