@@ -37,32 +37,26 @@ class ProxyFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
     @staticmethod
     @callback
-    def async_get_options_flow(config_entry):
-        return ProxyOptionsFlowHandler(config_entry)
+    def async_get_options_flow(_config_entry):
+        return ProxyOptionsFlowHandler()
 
 
 class ProxyOptionsFlowHandler(config_entries.OptionsFlow):
-
-    def __init__(self, config_entry):
-        self.config_entry = config_entry
 
     async def async_step_init(self, _user_input=None):
         return await self.async_step_user()
 
     async def async_step_user(self, user_input=None):
-        self._errors = {}
-        
-        if user_input:
-            self.hass.config_entries.async_update_entry(self.config_entry,data=user_input)
+        if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
+        current = {**self.config_entry.data, **self.config_entry.options}
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_ENABLE, default=self.config_entry.data.get(CONF_ENABLE)): bool,
-                    vol.Required(CONF_PROXY, default=self.config_entry.data.get(CONF_PROXY)): str,
+                    vol.Required(CONF_ENABLE, default=current.get(CONF_ENABLE, True)): bool,
+                    vol.Required(CONF_PROXY, default=current.get(CONF_PROXY, "")): str,
                 }
             ),
-            errors=self._errors,
         )

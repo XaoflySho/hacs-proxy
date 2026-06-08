@@ -15,11 +15,34 @@ class Proxy:
     def __init__(self, origin, proxy=None):
         self._origin = origin
         self._proxy_info = proxy
-    
+
+    def _inject(self, kwargs):
+        return {**kwargs, 'proxy': self._proxy_info}
+
+    async def request(self, method: str, url: StrOrURL, **kwargs: Any):
+        return await self._origin.request(method, url, **self._inject(kwargs))
+
     async def get(self, url: StrOrURL, **kwargs: Any):
-        args = {**kwargs, 'proxy': self._proxy_info}
-        return await self._origin.get(url, **args)
-    
+        return await self._origin.get(url, **self._inject(kwargs))
+
+    async def post(self, url: StrOrURL, **kwargs: Any):
+        return await self._origin.post(url, **self._inject(kwargs))
+
+    async def put(self, url: StrOrURL, **kwargs: Any):
+        return await self._origin.put(url, **self._inject(kwargs))
+
+    async def patch(self, url: StrOrURL, **kwargs: Any):
+        return await self._origin.patch(url, **self._inject(kwargs))
+
+    async def delete(self, url: StrOrURL, **kwargs: Any):
+        return await self._origin.delete(url, **self._inject(kwargs))
+
+    async def head(self, url: StrOrURL, **kwargs: Any):
+        return await self._origin.head(url, **self._inject(kwargs))
+
+    async def options(self, url: StrOrURL, **kwargs: Any):
+        return await self._origin.options(url, **self._inject(kwargs))
+
     def __getattr__(self, name):
         return getattr(self._origin, name)
 
@@ -32,7 +55,7 @@ async def async_initialize_integration(
     if hacs is None:
         return False
     
-    config = config_entry.data
+    config = {**config_entry.data, **config_entry.options}
     if not config.get(CONF_ENABLE):
         return True
 
@@ -55,7 +78,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
 
 async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Handle removal of an entry."""
-    hacs = hass.data[HACS_DOMAIN]
+    hacs = hass.data.get(HACS_DOMAIN)
     if hacs is None:
         return True
 
