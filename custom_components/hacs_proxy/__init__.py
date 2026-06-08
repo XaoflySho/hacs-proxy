@@ -1,23 +1,37 @@
 from __future__ import annotations
 
+import asyncio
+import logging
 from typing import Any
 
+import aiohttp
+from aiohttp.client import ClientSession
+from aiohttp.typedefs import StrOrURL
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
-import asyncio
-from aiohttp.client import ClientSession
-from aiohttp.typedefs import StrOrURL
+from .const import (
+    CONF_ENABLE,
+    CONF_PROXY,
+    CONF_PROXY_PASSWORD,
+    CONF_PROXY_USERNAME,
+    HACS_DOMAIN,
+)
 
-from .const import CONF_ENABLE, CONF_PROXY, DOMAIN, HACS_DOMAIN
+_LOGGER = logging.getLogger(__name__)
+
 
 class Proxy:
-    def __init__(self, origin, proxy=None):
+    def __init__(self, origin, proxy=None, username=None, password=None):
         self._origin = origin
         self._proxy_info = proxy
+        self._proxy_auth = aiohttp.BasicAuth(username, password) if username else None
 
     def _inject(self, kwargs):
-        return {**kwargs, 'proxy': self._proxy_info}
+        injected = {**kwargs, "proxy": self._proxy_info}
+        if self._proxy_auth is not None:
+            injected["proxy_auth"] = self._proxy_auth
+        return injected
 
     async def request(self, method: str, url: StrOrURL, **kwargs: Any):
         return await self._origin.request(method, url, **self._inject(kwargs))
@@ -46,6 +60,7 @@ class Proxy:
     def __getattr__(self, name):
         return getattr(self._origin, name)
 
+
 async def async_initialize_integration(
     hass: HomeAssistant,
     config_entry: ConfigEntry | None = None,
@@ -54,7 +69,7 @@ async def async_initialize_integration(
     hacs = hass.data.get(HACS_DOMAIN)
     if hacs is None:
         return False
-    
+
     config = {**config_entry.data, **config_entry.options}
     if not config.get(CONF_ENABLE):
         return True
@@ -63,12 +78,18 @@ async def async_initialize_integration(
     if not isinstance(session, ClientSession):
         return True
 
-    proxy = Proxy(session, config.get(CONF_PROXY))
+    proxy = Proxy(
+        session,
+        proxy=config.get(CONF_PROXY),
+        username=config.get(CONF_PROXY_USERNAME) or None,
+        password=config.get(CONF_PROXY_PASSWORD) or None,
+    )
     hacs.session = proxy
     hacs.github._session = proxy
     hacs.githubapi._session = proxy
 
     return True
+
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Set up this integration using UI."""

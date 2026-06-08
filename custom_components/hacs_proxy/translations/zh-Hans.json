@@ -7,9 +7,11 @@
             "user": {
                 "data": {
                     "enable": "启用代理",
-                    "proxy": "代理地址"
+                    "proxy": "代理地址",
+                    "proxy_username": "代理用户名（可选）",
+                    "proxy_password": "代理密码（可选）"
                 },
-                "description": "为HACS设置代理",
+                "description": "为HACS设置代理。如果代理不需要认证，请将用户名和密码留空。",
                 "title": "HACS代理"
             }
         }
@@ -19,9 +21,11 @@
             "user": {
                 "data": {
                     "enable": "启用代理",
-                    "proxy": "代理地址"
+                    "proxy": "代理地址",
+                    "proxy_username": "代理用户名（可选）",
+                    "proxy_password": "代理密码（可选）"
                 },
-                "description": "为HACS设置代理",
+                "description": "为HACS设置代理。如果代理不需要认证，请将用户名和密码留空。",
                 "title": "HACS代理"
             }
         }

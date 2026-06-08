@@ -2,7 +2,7 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 import voluptuous as vol
 
-from .const import CONF_ENABLE, CONF_PROXY, DOMAIN
+from .const import CONF_ENABLE, CONF_PROXY, CONF_PROXY_PASSWORD, CONF_PROXY_USERNAME, DOMAIN
 
 
 class ProxyFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -28,7 +28,9 @@ class ProxyFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_ENABLE, default=True): bool,
-                    vol.Required(CONF_PROXY, ): str,
+                    vol.Required(CONF_PROXY): str,
+                    vol.Optional(CONF_PROXY_USERNAME, default=""): str,
+                    vol.Optional(CONF_PROXY_PASSWORD, default=""): str,
                 }
             ),
             errors=self._errors,
@@ -57,6 +59,8 @@ class ProxyOptionsFlowHandler(config_entries.OptionsFlow):
                 {
                     vol.Required(CONF_ENABLE, default=current.get(CONF_ENABLE, True)): bool,
                     vol.Required(CONF_PROXY, default=current.get(CONF_PROXY, "")): str,
+                    vol.Optional(CONF_PROXY_USERNAME, default=current.get(CONF_PROXY_USERNAME, "")): str,
+                    vol.Optional(CONF_PROXY_PASSWORD, default=current.get(CONF_PROXY_PASSWORD, "")): str,
                 }
             ),
         )

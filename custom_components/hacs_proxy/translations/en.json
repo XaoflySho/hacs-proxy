@@ -9,9 +9,11 @@
             "user": {
                 "data": {
                     "enable": "Enable Proxy",
-                    "proxy": "Proxy Url"
+                    "proxy": "Proxy URL",
+                    "proxy_username": "Proxy Username (optional)",
+                    "proxy_password": "Proxy Password (optional)"
                 },
-                "description": "Set up proxy for HACS",
+                "description": "Set up proxy for HACS. Leave username and password empty if the proxy does not require authentication.",
                 "title": "HACS Proxy"
             }
         }
@@ -23,9 +25,11 @@
             "user": {
                 "data": {
                     "enable": "Enable Proxy",
-                    "proxy": "Proxy Url"
+                    "proxy": "Proxy URL",
+                    "proxy_username": "Proxy Username (optional)",
+                    "proxy_password": "Proxy Password (optional)"
                 },
-                "description": "Set up proxy for HACS",
+                "description": "Set up proxy for HACS. Leave username and password empty if the proxy does not require authentication.",
                 "title": "HACS Proxy"
             }
         }
